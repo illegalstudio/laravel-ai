@@ -1,6 +1,20 @@
 {
-  "name": "illegalstudio/laravel-ai",
-  "description": "Laravel AI",
-  "minimum-stability": "dev",
-  "prefer-stable": true
+    "name": "illegalstudio/laravel-ai",
+    "type": "library",
+    "description": "A laravel plugin to interact with AI providers",
+    "keywords": [
+        "laravel",
+        "ai",
+        "artificial intelligence",
+        "machine learning"
+    ],
+    "license": "GNU General Public License v3.0",
+    "require": {
+        "php": "^8.0.2"
+    },
+    "require-dev": {
+
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }
