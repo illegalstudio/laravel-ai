@@ -1,0 +1,6 @@
+{
+  "name": "illegalstudio/laravel-ai",
+  "description": "Laravel AI",
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
