@@ -9,29 +9,21 @@ use OpenAI;
 
 class ServiceProvider extends IlluminateServiceProvider
 {
-
     /**
      * Bootstrap any application services.
      */
     public function boot(): void
     {
-        $this->bootMigrations();
-        $this->bootCommands();
+        $this->loadMigrations();
+        $this->registerCommands();
+        $this->mergeConfigurations();
+        $this->configureDependencyInjection();
     }
 
     /**
-     * Register the service provider.
+     * Load the migrations
      */
-    public function register(): void
-    {
-        $this->registerMergeConfig();
-        $this->registerDI();
-    }
-
-    /**
-     * Register the migrations
-     */
-    private function bootMigrations(): void
+    private function loadMigrations(): void
     {
         $this->loadMigrationsFrom([
             __DIR__ . '/../database/migrations/'
@@ -41,7 +33,7 @@ class ServiceProvider extends IlluminateServiceProvider
     /**
      * Register the commands
      */
-    private function bootCommands(): void
+    private function registerCommands(): void
     {
         $this->commands([
             ImportModels::class,
@@ -49,17 +41,17 @@ class ServiceProvider extends IlluminateServiceProvider
     }
 
     /**
-     * Register the config
+     * Merge the config
      */
-    private function registerMergeConfig(): void
+    private function mergeConfigurations(): void
     {
         $this->mergeConfigFrom(__DIR__ . "/../config/laravel-ai.php", "laravel-ai");
     }
 
     /**
-     * Register the Dependency Injection
+     * Configure the Dependency Injection
      */
-    private function registerDI(): void
+    private function configureDependencyInjection(): void
     {
         /**
          * The OpenAI client
@@ -74,5 +66,4 @@ class ServiceProvider extends IlluminateServiceProvider
             return new OpenAIConnector($app->make(OpenAI\Client::class));
         });
     }
-
 }
