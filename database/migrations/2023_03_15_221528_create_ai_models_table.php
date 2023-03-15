@@ -9,6 +9,7 @@ return new class extends Migration {
     {
         Schema::create('models', function (Blueprint $table) {
             $table->id();
+            $table->boolean('is_active')->default(false);
             $table->string('connector');
             $table->string('external_id');
             $table->string('name');
@@ -18,6 +19,6 @@ return new class extends Migration {
 
     public function down(): void
     {
-        Schema::dropIfExists('ai_models');
+        Schema::dropIfExists('models');
     }
 };

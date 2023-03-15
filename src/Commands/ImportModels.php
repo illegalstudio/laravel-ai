@@ -25,13 +25,20 @@ class ImportModels extends Command
     {
         $connector = $this->askforConnector();
 
-        $this->withProgressBar($connector->listModels(), function (ModelObject $model) use ($connector) {
+        Model::whereConnector($connector::class)->update([
+            'is_active' => false
+        ]);
+
+        $this->withProgressBar($connector->listModels(), function (ModelObject $modelObject) use ($connector) {
             Model::updateOrCreate([
-                'external_id' => $model->externalId,
+                'external_id' => $modelObject->externalId,
                 'connector'   => $connector::class,
             ], array_merge(
-                $model->toArray(),
-                ['connector' => $connector::class]
+                $modelObject->toArray(),
+                [
+                    'connector' => $connector::class,
+                    'is_active' => true,
+                ]
             ));
         });
     }
