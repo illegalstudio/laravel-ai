@@ -29,5 +29,17 @@
     "require-dev": {
 
     },
+    "autoload": {
+        "psr-4": {
+            "Illegal\\LaravelAi\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Illegal\\LaravelAi\\ServiceProvider"
+            ]
+        }
+    },
     "prefer-stable": true
 }
