@@ -29,7 +29,7 @@ class ImportModels extends Command
             'is_active' => false
         ]);
 
-        $this->withProgressBar($connector->listModels(), function (ModelBridge $modelBridge) use ($connector) {
+        $this->withProgressBar($connector->listModels(), function (ModelBridge $modelBridge) {
             $modelBridge->import();
         });
     }
