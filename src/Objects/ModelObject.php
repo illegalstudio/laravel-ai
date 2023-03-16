@@ -2,10 +2,20 @@
 
 namespace Illegal\LaravelAI\Objects;
 
+use Illegal\LaravelAI\Enums\Connectors;
+use Illegal\LaravelAI\Models\Model;
+
 final class ModelObject
 {
-    public string $externalId;
-    public string $name;
+    public Connectors $connector;
+    public string     $externalId;
+    public string     $name;
+
+    public function withConnector(Connectors $connector): self
+    {
+        $this->connector = $connector;
+        return $this;
+    }
 
     public function withExternalId(string $externalId): self
     {
@@ -25,5 +35,19 @@ final class ModelObject
             'external_id' => $this->externalId,
             'name'        => $this->name,
         ];
+    }
+
+    public function import(): Model
+    {
+        return Model::updateOrCreate([
+            'external_id' => $this->externalId,
+            'connector'   => $this->connector
+        ], array_merge(
+            $this->toArray(),
+            [
+                'connector' => $this->connector,
+                'is_active' => true,
+            ]
+        ));
     }
 }
