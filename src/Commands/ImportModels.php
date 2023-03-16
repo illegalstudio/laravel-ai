@@ -19,13 +19,13 @@ class ImportModels extends Command
     /**
      * @var string The description of the console command.
      */
-    protected $description = 'Import models from AI connectors';
+    protected $description = 'Import models from AI provider';
 
     public function handle(): void
     {
         $connector = $this->askforConnector();
 
-        Model::whereConnector($connector::class)->update([
+        Model::whereProvider($connector::class)->update([
             'is_active' => false
         ]);
 

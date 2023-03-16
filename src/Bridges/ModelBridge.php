@@ -3,13 +3,13 @@
 namespace Illegal\LaravelAI\Bridges;
 
 use Illegal\LaravelAI\Contracts\Bridge;
-use Illegal\LaravelAI\Contracts\HasConnector;
-use Illegal\LaravelAI\Enums\Connectors;
+use Illegal\LaravelAI\Contracts\HasProvider;
+use Illegal\LaravelAI\Enums\Provider;
 use Illegal\LaravelAI\Models\Model;
 
 final class ModelBridge implements Bridge
 {
-    use HasConnector;
+    use HasProvider;
 
     public string $externalId;
     public string $name;
@@ -38,11 +38,11 @@ final class ModelBridge implements Bridge
     {
         return Model::updateOrCreate([
             'external_id' => $this->externalId,
-            'connector'   => $this->connector
+            'provider'    => $this->provider
         ], array_merge(
             $this->toArray(),
             [
-                'connector' => $this->connector,
+                'provider'  => $this->provider,
                 'is_active' => true,
             ]
         ));

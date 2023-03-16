@@ -2,7 +2,7 @@
 
 namespace Illegal\LaravelAI\Contracts;
 
-use Illegal\LaravelAI\Enums\Connectors;
+use Illegal\LaravelAI\Enums\Provider;
 
 /**
  * @method choice( string $string, array|string[] $choices, string $value )
@@ -11,15 +11,15 @@ trait ConsoleAIConnectorDependent
 {
     public function askforConnector(): Connector
     {
-        $connector = $this->choice(
-            'Choose a connector',
+        $provider = $this->choice(
+            'Choose a provider',
             array_map(function ($item) {
                 return $item->value;
-            }, Connectors::cases()),
-            Connectors::OpenAI->value
+            }, Provider::cases()),
+            Provider::OpenAI->value
         );
 
-        return Connectors::from($connector)->getConnector();
+        return Provider::from($provider)->getConnector();
     }
 
 }

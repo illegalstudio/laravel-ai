@@ -10,7 +10,7 @@ return new class extends Migration {
         Schema::create('models', function (Blueprint $table) {
             $table->id();
             $table->boolean('is_active')->default(false);
-            $table->string('connector');
+            $table->string('provider');
             $table->string('external_id');
             $table->string('name');
             $table->timestamps();

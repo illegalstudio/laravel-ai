@@ -5,7 +5,7 @@ namespace Illegal\LaravelAI\Enums;
 use Illegal\LaravelAI\Contracts\Connector;
 use Illegal\LaravelAI\Connectors\OpenAIConnector;
 
-enum Connectors: string
+enum Provider: string
 {
     case OpenAI = OpenAIConnector::NAME;
 

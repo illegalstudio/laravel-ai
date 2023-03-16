@@ -2,7 +2,7 @@
 
 namespace Illegal\LaravelAI\Contracts;
 
-use Illegal\LaravelAI\Enums\Connectors;
+use Illegal\LaravelAI\Enums\Provider;
 
 /**
  * The bridge is a way to connect the AI provider to the application.
@@ -10,9 +10,9 @@ use Illegal\LaravelAI\Enums\Connectors;
 interface Bridge
 {
     /**
-     * Set the connector for the bridge.
-     * This is implemented in the HasConnector trait.
+     * Set the provider for the bridge.
+     * This is implemented in the HasProvider trait.
      * Bridges should implement this interface and use the trait.
      */
-    public function withConnector(Connectors $connector): self;
+    public function withProvider(Provider $provider): self;
 }
