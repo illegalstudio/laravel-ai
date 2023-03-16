@@ -2,20 +2,17 @@
 
 namespace Illegal\LaravelAI\Bridges;
 
+use Illegal\LaravelAI\Contracts\Bridge;
+use Illegal\LaravelAI\Contracts\HasConnector;
 use Illegal\LaravelAI\Enums\Connectors;
 use Illegal\LaravelAI\Models\Model;
 
-final class ModelBridge
+final class ModelBridge implements Bridge
 {
-    public Connectors $connector;
-    public string     $externalId;
-    public string     $name;
+    use HasConnector;
 
-    public function withConnector(Connectors $connector): self
-    {
-        $this->connector = $connector;
-        return $this;
-    }
+    public string $externalId;
+    public string $name;
 
     public function withExternalId(string $externalId): self
     {
