@@ -3,7 +3,7 @@
 namespace Illegal\LaravelAI;
 
 use Illegal\LaravelAI\Commands\ImportModels;
-use Illegal\LaravelAI\Services\OpenAIConnector;
+use Illegal\LaravelAI\Connectors\OpenAIConnector;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 use OpenAI;
 
