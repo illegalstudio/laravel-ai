@@ -3,11 +3,11 @@
 namespace Illegal\LaravelAI\Enums;
 
 use Illegal\LaravelAI\Contracts\Connector;
-use Illegal\LaravelAI\Services\OpenAIConnector;
+use Illegal\LaravelAI\Connectors\OpenAIConnector;
 
 enum Connectors: string
 {
-    case OpenAI = "openai";
+    case OpenAI = OpenAIConnector::NAME;
 
     public function getConnector(): Connector
     {

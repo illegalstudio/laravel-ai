@@ -2,7 +2,7 @@
 
 namespace Illegal\LaravelAI\Facades;
 
-use Illegal\LaravelAI\Services\OpenAIConnector as Accessor;
+use Illegal\LaravelAI\Connectors\OpenAIConnector as Accessor;
 use Illuminate\Support\Facades\Facade;
 
 class OpenAIConnector extends Facade
