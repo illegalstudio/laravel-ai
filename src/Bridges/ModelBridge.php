@@ -1,11 +1,11 @@
 <?php
 
-namespace Illegal\LaravelAI\Objects;
+namespace Illegal\LaravelAI\Bridges;
 
 use Illegal\LaravelAI\Enums\Connectors;
 use Illegal\LaravelAI\Models\Model;
 
-final class ModelObject
+final class ModelBridge
 {
     public Connectors $connector;
     public string     $externalId;

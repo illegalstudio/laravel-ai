@@ -4,7 +4,7 @@ namespace Illegal\LaravelAI\Commands;
 
 use Illegal\LaravelAI\Contracts\ConsoleAIConnectorDependent;
 use Illegal\LaravelAI\Models\Model;
-use Illegal\LaravelAI\Objects\ModelObject;
+use Illegal\LaravelAI\Bridges\ModelBridge;
 use Illuminate\Console\Command;
 
 class ImportModels extends Command
@@ -29,8 +29,8 @@ class ImportModels extends Command
             'is_active' => false
         ]);
 
-        $this->withProgressBar($connector->listModels(), function (ModelObject $modelObject) use ($connector) {
-            $modelObject->import();
+        $this->withProgressBar($connector->listModels(), function (ModelBridge $modelBridge) use ($connector) {
+            $modelBridge->import();
         });
     }
 }
