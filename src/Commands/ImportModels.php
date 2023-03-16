@@ -30,17 +30,7 @@ class ImportModels extends Command
         ]);
 
         $this->withProgressBar($connector->listModels(), function (ModelObject $modelObject) use ($connector) {
-            Model::updateOrCreate([
-                'external_id' => $modelObject->externalId,
-                'connector'   => $connector::class,
-            ], array_merge(
-                $modelObject->toArray(),
-                [
-                    'connector' => $connector::class,
-                    'is_active' => true,
-                ]
-            ));
+            $modelObject->import();
         });
     }
-
 }
