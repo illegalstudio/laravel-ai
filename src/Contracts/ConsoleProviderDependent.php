@@ -7,9 +7,9 @@ use Illegal\LaravelAI\Enums\Provider;
 /**
  * @method choice( string $string, array|string[] $choices, string $value )
  */
-trait ConsoleAIConnectorDependent
+trait ConsoleProviderDependent
 {
-    public function askforConnector(): Connector
+    public function askForProvider(): Provider
     {
         $provider = $this->choice(
             'Choose a provider',
@@ -19,7 +19,7 @@ trait ConsoleAIConnectorDependent
             Provider::OpenAI->value
         );
 
-        return Provider::from($provider)->getConnector();
+        return Provider::from($provider);
     }
 
 }
