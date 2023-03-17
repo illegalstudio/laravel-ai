@@ -8,6 +8,9 @@ use Illegal\LaravelAI\Facades\Bridges\ModelBridge;
 use Illuminate\Support\Collection;
 use OpenAI\Client;
 
+/**
+ * The Connector for the OpenAI provider
+ */
 class OpenAIConnector implements Connector
 {
     /**
