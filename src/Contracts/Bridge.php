@@ -3,6 +3,7 @@
 namespace Illegal\LaravelAI\Contracts;
 
 use Illegal\LaravelAI\Enums\Provider;
+use Illuminate\Database\Eloquent\Model;
 
 /**
  * The bridge is a way to connect the AI provider to the application.
@@ -16,4 +17,15 @@ interface Bridge
      * Bridges should implement this interface and use the trait.
      */
     public function withProvider(Provider $provider): self;
+
+    /**
+     * This function should return an array representation of the current bridge.
+     */
+    public function toArray(): array;
+
+    /**
+     * This function should import the current bridge into the application.
+     * It should return the imported laravel model.
+     */
+    public function import(): Model;
 }

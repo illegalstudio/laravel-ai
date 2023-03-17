@@ -4,7 +4,6 @@ namespace Illegal\LaravelAI\Bridges;
 
 use Illegal\LaravelAI\Contracts\Bridge;
 use Illegal\LaravelAI\Contracts\HasProvider;
-use Illegal\LaravelAI\Enums\Provider;
 use Illegal\LaravelAI\Models\Model;
 
 final class ModelBridge implements Bridge
