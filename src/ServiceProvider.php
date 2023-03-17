@@ -2,6 +2,7 @@
 
 namespace Illegal\LaravelAI;
 
+use Illegal\LaravelAi\Commands\Chat;
 use Illegal\LaravelAI\Commands\ImportModels;
 use Illegal\LaravelAI\Connectors\OpenAIConnector;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
@@ -36,6 +37,7 @@ class ServiceProvider extends IlluminateServiceProvider
     private function registerCommands(): void
     {
         $this->commands([
+            Chat::class,
             ImportModels::class,
         ]);
     }
