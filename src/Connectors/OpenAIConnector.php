@@ -4,7 +4,7 @@ namespace Illegal\LaravelAI\Connectors;
 
 use Illegal\LaravelAI\Contracts\Connector;
 use Illegal\LaravelAI\Enums\Provider;
-use Illegal\LaravelAI\Facades\Bridges\ModelBridge;
+use Illegal\LaravelAI\Bridges\ModelBridge;
 use Illuminate\Support\Collection;
 use OpenAI\Client;
 
@@ -31,7 +31,7 @@ class OpenAIConnector implements Connector
     public function listModels(): Collection
     {
         return Collection::make($this->client->models()->list()->data)->map(function ($model) {
-            return ModelBridge::withProvider(Provider::OpenAI)
+            return ModelBridge::new()->withProvider(Provider::OpenAI)
                 ->withName($model->id ?? '')
                 ->withExternalId($model->id ?? '');
         });

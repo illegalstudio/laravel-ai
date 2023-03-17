@@ -3,12 +3,13 @@
 namespace Illegal\LaravelAI\Bridges;
 
 use Illegal\LaravelAI\Contracts\Bridge;
+use Illegal\LaravelAI\Contracts\HasNew;
 use Illegal\LaravelAI\Contracts\HasProvider;
 use Illegal\LaravelAI\Models\Model;
 
 final class ModelBridge implements Bridge
 {
-    use HasProvider;
+    use HasProvider, HasNew;
 
     public string $externalId;
     public string $name;
