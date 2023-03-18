@@ -128,8 +128,8 @@ final class ChatBridge implements Bridge
         $this->chat = $this->chat ?? ( new Chat );
         $this->chat->forceFill([
             'model_id'    => $this->model->id,
-            'external_id' => $this->externalId,
-            'messages'    => $this->messages,
+            'external_id' => $response->externalId(),
+            'messages'    => array_merge($this->messages, [$response->message()->toArray()])
         ])->save();
 
         /**
