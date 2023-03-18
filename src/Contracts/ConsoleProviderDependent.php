@@ -9,6 +9,9 @@ use Illegal\LaravelAI\Enums\Provider;
  */
 trait ConsoleProviderDependent
 {
+    /**
+     * Ask the user for a provider
+     */
     public function askForProvider(): Provider
     {
         $provider = $this->choice(
