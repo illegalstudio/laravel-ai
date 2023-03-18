@@ -2,6 +2,7 @@
 
 namespace Illegal\LaravelAI\Contracts;
 
+use Illegal\LaravelAI\Responses\TextResponse;
 use Illuminate\Support\Collection;
 
 interface Connector
@@ -18,7 +19,7 @@ interface Connector
      * Typically this function will retrieve the list though the API of the provider.
      * Should return a collection of ModelObject objects.
      *
-     * @return Collection
+     * @return Collection - A collection of ModelBridge objects
      */
     public function listModels(): Collection;
 
@@ -28,7 +29,9 @@ interface Connector
     public function complete(string $model, string $prompt, int $maxTokens, float $temperature): void;
 
     /**
-     * @return array<string, array<string, string>> - The response from the provider
+     * Send a chat message to the given model.
+     *
+     * @return TextResponse - The response from the provider
      */
-    public function chat(string $model, array|string $messages): array;
+    public function chat(string $model, array|string $messages): TextResponse;
 }
