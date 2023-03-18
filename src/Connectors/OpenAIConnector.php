@@ -6,6 +6,8 @@ use Exception;
 use Illegal\LaravelAI\Contracts\Connector;
 use Illegal\LaravelAI\Enums\Provider;
 use Illegal\LaravelAI\Bridges\ModelBridge;
+use Illegal\LaravelAI\Responses\MessageResponse;
+use Illegal\LaravelAI\Responses\TextResponse;
 use Illuminate\Support\Collection;
 use OpenAI\Client;
 
@@ -60,7 +62,7 @@ class OpenAIConnector implements Connector
      * @inheritDoc
      * @throws Exception
      */
-    public function chat(string $model, array|string $messages): array
+    public function chat(string $model, array|string $messages): TextResponse
     {
         $messages = is_array($messages) ? $messages : [
             [
@@ -74,15 +76,12 @@ class OpenAIConnector implements Connector
             'messages' => $messages
         ]);
 
-        $response = [
-            'external_id' => $chat->id,
-        ];
+        $response = TextResponse::new()->withExternalId($chat->id);
 
         foreach ($chat->choices as $choice) {
-            $response['message'] = [
-                'role'    => $choice->message->role,
-                'content' => $choice->message->content
-            ];
+            $response->withMessage(
+                MessageResponse::new()->withContent($choice->message->content)->withRole($choice->message->role)
+            );
         }
 
         return $response;
