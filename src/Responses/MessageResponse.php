@@ -43,7 +43,10 @@ class MessageResponse
      */
     public function withContent(string $content): self
     {
-        $this->content = $content;
+        /**
+         * Trim the content, to remove any leading or trailing whitespace
+         */
+        $this->content = trim($content);
         return $this;
     }
 

@@ -26,7 +26,7 @@ interface Connector
     /**
      * Complete a prompt with the given model.
      */
-    public function complete(string $model, string $prompt, int $maxTokens, float $temperature): void;
+    public function complete(string $model, string $prompt, int $maxTokens, float $temperature): TextResponse;
 
     /**
      * Send a chat message to the given model.

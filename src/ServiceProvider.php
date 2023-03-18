@@ -3,8 +3,10 @@
 namespace Illegal\LaravelAI;
 
 use Illegal\LaravelAi\Commands\Chat;
+use Illegal\LaravelAi\Commands\Complete;
 use Illegal\LaravelAI\Commands\ImportModels;
 use Illegal\LaravelAI\Connectors\OpenAIConnector;
+use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 use OpenAI;
 
@@ -38,6 +40,7 @@ class ServiceProvider extends IlluminateServiceProvider
     {
         $this->commands([
             Chat::class,
+            Complete::class,
             ImportModels::class,
         ]);
     }
@@ -58,14 +61,16 @@ class ServiceProvider extends IlluminateServiceProvider
         /**
          * The OpenAI client
          */
-        $this->app->singleton(OpenAI\Client::class, function ($app) {
+        $this->app->singleton(OpenAI\Client::class, function () {
             return OpenAI::client(config('laravel-ai.openai.api_key'));
         });
         /**
          * The OpenAI connector
          */
-        $this->app->singleton(OpenAIConnector::class, function ($app) {
-            return new OpenAIConnector($app->make(OpenAI\Client::class));
+        $this->app->singleton(OpenAIConnector::class, function (Application $app) {
+            return ( new OpenAIConnector($app->make(OpenAI\Client::class)) )
+                ->withDefaultMaxTokens(config('laravel-ai.openai.default_max_tokens'))
+                ->withDefaultTemperature(config('laravel-ai.openai.default_temperature'));
         });
     }
 }
