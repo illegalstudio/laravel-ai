@@ -3,29 +3,81 @@
 namespace Illegal\LaravelAI\Bridges;
 
 use Illegal\LaravelAI\Contracts\Bridge;
+use Illegal\LaravelAI\Contracts\HasModel;
 use Illegal\LaravelAI\Contracts\HasNew;
 use Illegal\LaravelAI\Contracts\HasProvider;
 use Illegal\LaravelAI\Models\Model;
 
 final class ModelBridge implements Bridge
 {
-    use HasProvider, HasNew;
+    use HasProvider, HasModel, HasNew;
 
-    public string $externalId;
-    public string $name;
+    /**
+     * @var string $externalId The external id of the model, returned by the provider
+     */
+    private string $externalId;
 
+    /**
+     * @var string $name The name of the model
+     */
+    private string $name;
+
+    /**
+     * Setter for the external id
+     */
     public function withExternalId(string $externalId): self
     {
         $this->externalId = $externalId;
         return $this;
     }
 
+    /**
+     * Getter for the external id
+     */
+    public function externalId(): string
+    {
+        return $this->externalId;
+    }
+
+    /**
+     * Setter for the name
+     */
     public function withName(string $name): self
     {
         $this->name = $name;
         return $this;
     }
 
+    /**
+     * Getter for the name
+     */
+    public function name(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * Setter for the model
+     */
+    public function withModel(Model|string $model): self
+    {
+        /**
+         * Call the trait setter for the model
+         */
+        $this->_withModel($model);
+
+        /**
+         * Update other properties
+         */
+        $this->withExternalId($this->model->external_id);
+        $this->withName($this->model->name);
+
+        return $this;
+    }
+
+    /**
+     * Returns the array representation of the model
+     */
     public function toArray(): array
     {
         return [
@@ -34,9 +86,12 @@ final class ModelBridge implements Bridge
         ];
     }
 
+    /**
+     * Imports the model into the database
+     */
     public function import(): Model
     {
-        return Model::updateOrCreate([
+        $model = Model::updateOrCreate([
             'external_id' => $this->externalId,
             'provider'    => $this->provider
         ], array_merge(
@@ -46,5 +101,9 @@ final class ModelBridge implements Bridge
                 'is_active' => true,
             ]
         ));
+
+        $this->withModel($model);
+
+        return $model;
     }
 }
