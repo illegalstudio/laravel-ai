@@ -51,3 +51,11 @@ php artisan ai:complete
 ```
 
 This command allows you to request the AI to complete your text. Once the command is executed, you can provide your prompt and the AI will generate a response.
+
+### Image generate
+
+```shell
+php artisan ai:image:generate
+```
+
+This command allows you to request the AI to generate an image. Once the command is executed, you can provide your prompt and the AI will generate an image.
