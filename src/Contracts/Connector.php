@@ -2,6 +2,7 @@
 
 namespace Illegal\LaravelAI\Contracts;
 
+use Illegal\LaravelAI\Responses\ImageResponse;
 use Illegal\LaravelAI\Responses\TextResponse;
 use Illuminate\Support\Collection;
 
@@ -34,4 +35,11 @@ interface Connector
      * @return TextResponse - The response from the provider
      */
     public function chat(string $model, array|string $messages): TextResponse;
+
+    /**
+     * Generate an image from the given prompt.
+     *
+     * @return ImageResponse - The response from the provider
+     */
+    public function imageGenerate(string $prompt, int $width, int $height): ImageResponse;
 }

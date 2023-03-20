@@ -6,6 +6,7 @@ use Exception;
 use Illegal\LaravelAI\Contracts\Connector;
 use Illegal\LaravelAI\Enums\Provider;
 use Illegal\LaravelAI\Bridges\ModelBridge;
+use Illegal\LaravelAI\Responses\ImageResponse;
 use Illegal\LaravelAI\Responses\MessageResponse;
 use Illegal\LaravelAI\Responses\TextResponse;
 use Illuminate\Support\Collection;
@@ -119,5 +120,28 @@ class OpenAIConnector implements Connector
         }
 
         return $response;
+    }
+
+    /**
+     * @inheritDoc
+     * @throws Exception
+     */
+    public function imageGenerate(string $prompt, int $width, int $height): ImageResponse
+    {
+        $response = $this->client->images()->create([
+            'prompt' => $prompt,
+            'n' => 1,
+            'size' => sprintf('%dx%d', $width, $height),
+            'response_format' => 'url'
+        ]);
+
+        $url = null;
+
+        foreach ($response->data as $data) {
+            $url = $data->url;
+            // $data->b64_json; // null
+        }
+
+        return ImageResponse::new()->withCreatedAt($response->created)->withUrl($url);
     }
 }

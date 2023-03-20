@@ -8,18 +8,20 @@ use Illuminate\Support\Facades\Schema;
 return new class extends Migration {
     public function up(): void
     {
-        Schema::create('completions', function (Blueprint $table) {
+        Schema::create('images', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(Model::class)->constrained();
+            $table->foreignIdFor(Model::class)->nullable()->constrained();
             $table->string('external_id')->nullable();
             $table->string('prompt');
-            $table->string('answer');
+            $table->integer('width');
+            $table->integer('height');
+            $table->text('url')->nullable();
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('completions');
+        Schema::dropIfExists('images');
     }
 };

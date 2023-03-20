@@ -4,6 +4,7 @@ namespace Illegal\LaravelAI;
 
 use Illegal\LaravelAi\Commands\Chat;
 use Illegal\LaravelAi\Commands\Complete;
+use Illegal\LaravelAi\Commands\ImageGenerate;
 use Illegal\LaravelAI\Commands\ImportModels;
 use Illegal\LaravelAI\Connectors\OpenAIConnector;
 use Illuminate\Foundation\Application;
@@ -41,6 +42,7 @@ class ServiceProvider extends IlluminateServiceProvider
         $this->commands([
             Chat::class,
             Complete::class,
+            ImageGenerate::class,
             ImportModels::class,
         ]);
     }

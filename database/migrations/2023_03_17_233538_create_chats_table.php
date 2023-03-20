@@ -11,7 +11,7 @@ return new class extends Migration {
         Schema::create('chats', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(Model::class)->constrained();
-            $table->string('external_id');
+            $table->string('external_id')->nullable();
             $table->json('messages')->nullable();
             $table->timestamps();
         });
