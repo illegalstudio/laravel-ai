@@ -1,8 +1,8 @@
 # Laravel AI
 
-```
-Note: This package is currently under heavy development and is not yet suitable for production use.
-```
+<div style="background-color: #ffe6e6; border: 1px solid #ff4d4d; padding: 10px;">
+    <p><strong>WARNING:</strong> This package is currently under heavy development and is not yet suitable for production use.</p>
+</div>
 
 The Laravel AI package provides an interface for connecting your Laravel application with AI services, particularly with OpenAI. With this package, you can easily:
 
