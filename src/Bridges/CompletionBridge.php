@@ -30,9 +30,9 @@ class CompletionBridge implements Bridge
     private string $answer;
 
     /**
-     * @var Completion $completion The corresponding completion model
+     * @var Completion|null $completion The corresponding completion model
      */
-    private Completion $completion;
+    private ?Completion $completion;
 
     /**
      * Setter for the external id
@@ -92,9 +92,10 @@ class CompletionBridge implements Bridge
     {
         $this->completion = $completion;
 
-        $this->withExternalId($completion->external_id);
-        $this->withPrompt($completion->prompt);
-        $this->withAnswer($completion->answer);
+        $this->withModel($completion->model)
+            ->withExternalId($completion->external_id)
+            ->withPrompt($completion->prompt)
+            ->withAnswer($completion->answer);
 
         return $this;
     }
@@ -112,36 +113,50 @@ class CompletionBridge implements Bridge
      */
     public function toArray(): array
     {
-        return [];
+        return [
+            'model_id'    => $this->model?->id,
+            'external_id' => $this->externalId(),
+            'prompt'      => $this->prompt(),
+            'answer'      => $this->answer(),
+        ];
     }
 
     /**
-     * @throws Exception
+     * Import the bridge into a model
      */
     public function import(): Model
     {
-        throw new Exception('Not implemented');
+        $this->completion = $this->completion ?? ( new Completion );
+        $this->completion->forceFill($this->toArray())->save();
+
+        return $this->completion;
     }
 
     /**
      * Ask the provider to complete the given text
-     *
-     * @throws Exception
      */
     public function complete(string $text): string
     {
+        /**
+         * Get the response from the provider, in the TextResponse format
+         */
         $response = $this->provider()->getConnector()->complete($this->model->external_id, $text);
 
-        $this->completion = $this->completion ?? ( new Completion );
-        $this->completion->forceFill([
-            'model_id'    => $this->model->id,
-            'external_id' => $response->externalId(),
-            'prompt'      => $text,
-            'answer'      => $response->message()->content(),
-        ])->save();
+        /**
+         * Populate local data
+         */
+        $this->externalId = $response->externalId();
+        $this->prompt     = $text;
+        $this->answer     = $response->message()->content();
 
-        $this->withCompletion($this->completion);
+        /**
+         * Import into a model
+         */
+        $this->import();
 
+        /**
+         * Return the content of the response
+         */
         return $response->message()->content();
     }
 }

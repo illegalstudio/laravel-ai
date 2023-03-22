@@ -15,24 +15,24 @@ final class ChatBridge implements Bridge
     use HasProvider, HasModel, HasNew;
 
     /**
-     * @var string $externalId The external id of the chat, returned by the provider
+     * @var string|null $externalId The external id of the chat, returned by the provider
      */
-    private string $externalId;
+    private ?string $externalId;
 
     /**
      * @var array $messages The messages sent and received in the chat
      */
-    private array $messages;
+    private array $messages = [];
 
     /**
-     * @var Chat $chat The corresponding chat model
+     * @var Chat|null $chat The corresponding chat model
      */
-    private Chat $chat;
+    private ?Chat $chat;
 
     /**
      * Setter for the external id
      */
-    public function withExternalId(string $externalId): self
+    public function withExternalId(string $externalId = null): self
     {
         $this->externalId = $externalId;
         return $this;
@@ -49,9 +49,9 @@ final class ChatBridge implements Bridge
     /**
      * Setter for the messages
      */
-    public function withMessages(array $messages): self
+    public function withMessages(array $messages = null): self
     {
-        $this->messages = $messages;
+        $this->messages = $messages ?? [];
         return $this;
     }
 
@@ -70,8 +70,9 @@ final class ChatBridge implements Bridge
     {
         $this->chat = $chat;
 
-        $this->withExternalId($chat->external_id);
-        $this->withMessages($chat->messages);
+        $this->withModel($chat->model)
+            ->withExternalId($chat->external_id)
+            ->withMessages($chat->messages);
 
         return $this;
     }
@@ -90,28 +91,31 @@ final class ChatBridge implements Bridge
     public function toArray(): array
     {
         return [
+            'model_id'    => $this->model?->id,
             'external_id' => $this->externalId,
             'messages'    => $this->messages,
         ];
     }
 
     /**
-     * The import method is not implemented for the chat bridge
-     *
-     * @throws Exception
+     * Import the chat data into a Model
      */
     public function import(): Model
     {
-        throw new Exception('Not implemented');
+        $this->chat = $this->chat ?? ( new Chat );
+        $this->chat->forceFill($this->toArray())->save();
+
+        return $this->chat;
     }
 
     /**
      * Send a message to the chat
-     *
-     * @throws Exception
      */
     public function send($message): string
     {
+        /**
+         * Append the message to the messages array
+         */
         $this->messages[] = [
             'role'    => 'user',
             'content' => $message
@@ -123,20 +127,15 @@ final class ChatBridge implements Bridge
         $response = $this->provider->getConnector()->chat($this->model->external_id, $this->messages);
 
         /**
-         * Update or create the chat model
+         * Populate local data
          */
-        $this->chat = $this->chat ?? ( new Chat );
-        $this->chat->forceFill([
-            'model_id'    => $this->model->id,
-            'external_id' => $response->externalId(),
-            'messages'    => array_merge($this->messages, [$response->message()->toArray()])
-        ])->save();
+        $this->externalId = $response->externalId();
+        $this->messages   = array_merge($this->messages, [$response->message()->toArray()]);
 
         /**
-         * Refresh the bridge with the new chat.
-         * This will update the messages and external id
+         * Import into a model
          */
-        $this->withChat($this->chat);
+        $this->import();
 
         /**
          * Return the content of the response
