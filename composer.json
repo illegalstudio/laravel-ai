@@ -31,13 +31,13 @@
     },
     "autoload": {
         "psr-4": {
-            "Illegal\\LaravelAi\\": "src/"
+            "Illegal\\LaravelAI\\": "src/"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Illegal\\LaravelAi\\ServiceProvider"
+                "Illegal\\LaravelAI\\ServiceProvider"
             ]
         }
     },

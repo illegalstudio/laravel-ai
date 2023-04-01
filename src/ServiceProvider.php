@@ -2,9 +2,9 @@
 
 namespace Illegal\LaravelAI;
 
-use Illegal\LaravelAi\Commands\Chat;
-use Illegal\LaravelAi\Commands\Complete;
-use Illegal\LaravelAi\Commands\ImageGenerate;
+use Illegal\LaravelAI\Commands\Chat;
+use Illegal\LaravelAI\Commands\Complete;
+use Illegal\LaravelAI\Commands\ImageGenerate;
 use Illegal\LaravelAI\Commands\ImportModels;
 use Illegal\LaravelAI\Connectors\OpenAIConnector;
 use Illuminate\Foundation\Application;

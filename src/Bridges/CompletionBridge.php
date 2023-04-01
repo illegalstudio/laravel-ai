@@ -7,7 +7,7 @@ use Illegal\LaravelAI\Contracts\Bridge;
 use Illegal\LaravelAI\Contracts\HasModel;
 use Illegal\LaravelAI\Contracts\HasNew;
 use Illegal\LaravelAI\Contracts\HasProvider;
-use Illegal\LaravelAi\Models\Completion;
+use Illegal\LaravelAI\Models\Completion;
 use Illuminate\Database\Eloquent\Model;
 
 class CompletionBridge implements Bridge
