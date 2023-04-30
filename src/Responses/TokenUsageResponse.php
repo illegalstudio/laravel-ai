@@ -73,4 +73,16 @@ class TokenUsageResponse
             ->withCompletionTokens($array['completion_tokens'] ?? 0)
             ->withTotalTokens($array['total_tokens'] ?? 0);
     }
+
+    /**
+     * Returns an array representation of the object
+     */
+    public function toArray(): array
+    {
+        return [
+            'prompt_tokens'     => $this->promptTokens,
+            'completion_tokens' => $this->completionTokens,
+            'total_tokens'      => $this->totalTokens,
+        ];
+    }
 }

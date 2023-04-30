@@ -11,9 +11,9 @@ return new class extends Migration {
         Schema::create(ApiRequest::getTableName(), function (Blueprint $table) {
             $table->id();
             $table->string('external_id')->nullable();
-            $table->integer('usage_prompt_tokens')->default(0);
-            $table->integer('usage_completion_tokens')->default(0);
-            $table->integer('usage_total_tokens')->default(0);
+            $table->integer('prompt_tokens')->default(0);
+            $table->integer('completion_tokens')->default(0);
+            $table->integer('total_tokens')->default(0);
             $table->nullableMorphs('requestable');
 
             $table->timestamps();

@@ -5,7 +5,9 @@ namespace Illegal\LaravelAI\Bridges;
 use Illegal\LaravelAI\Contracts\Bridge;
 use Illegal\LaravelAI\Contracts\HasModel;
 use Illegal\LaravelAI\Contracts\HasProvider;
+use Illegal\LaravelAI\Models\ApiRequest;
 use Illegal\LaravelAI\Models\Completion;
+use Illegal\LaravelAI\Responses\TokenUsageResponse;
 use Illegal\LaravelUtils\Contracts\HasNew;
 use Illuminate\Database\Eloquent\Model;
 
@@ -125,10 +127,15 @@ class CompletionBridge implements Bridge
      */
     public function import(): Model
     {
-        $this->completion = $this->completion ?? ( new Completion );
+        $this->completion = $this->completion ?? (new Completion);
         $this->completion->forceFill($this->toArray())->save();
 
         return $this->completion;
+    }
+
+    public function saveRequest(TokenUsageResponse $tokenUsage): ApiRequest
+    {
+        return ApiRequest::create($tokenUsage->toArray());
     }
 
     /**
@@ -139,7 +146,8 @@ class CompletionBridge implements Bridge
         /**
          * Get the response from the provider, in the TextResponse format
          */
-        $response = $this->provider()->getConnector()->complete($this->model->external_id, $text, $maxTokens, $temperature);
+        $response = $this->provider()->getConnector()->complete($this->model->external_id, $text, $maxTokens,
+            $temperature);
 
         /**
          * Populate local data
@@ -152,6 +160,7 @@ class CompletionBridge implements Bridge
          * Import into a model
          */
         $this->import();
+        $this->saveRequest($response->tokenUsage());
 
         /**
          * Return the content of the response

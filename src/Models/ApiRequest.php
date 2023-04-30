@@ -20,6 +20,15 @@ class ApiRequest extends Model
     /**
      * @inheritdoc
      */
+    protected $fillable = [
+        'prompt_tokens',
+        'completion_tokens',
+        'total_tokens'
+    ];
+
+    /**
+     * @inheritdoc
+     */
     protected function getPrefix(): string
     {
         return config('laravel-ai.db.prefix');
