@@ -2,12 +2,14 @@
 
 namespace Illegal\LaravelAI\Models;
 
+use Illegal\LaravelUtils\Contracts\HasNew;
 use Illegal\LaravelUtils\Contracts\HasPrefix;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class ApiRequest extends Model
 {
-    use HasPrefix;
+    use HasPrefix, HasNew;
 
     /**
      * This is just a placeholder, has the name will be set by
@@ -32,5 +34,13 @@ class ApiRequest extends Model
     protected function getPrefix(): string
     {
         return config('laravel-ai.db.prefix');
+    }
+
+    /**
+     * The requestable model for which this request was made.
+     */
+    public function requestable(): MorphTo
+    {
+        return $this->morphTo();
     }
 }
