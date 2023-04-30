@@ -11,6 +11,14 @@ class Model extends EloquentModel
     use HasPrefix;
 
     /**
+     * This is just a placeholder, has the name will be set by
+     * the HasPrefix trait.
+     *
+     * @var string The table name.
+     */
+    protected $table = "ai_models";
+
+    /**
      * @inheritdoc
      */
     protected function getPrefix(): string

@@ -11,6 +11,14 @@ class Chat extends EloquentModel
     use BelongsToModel, HasPrefix;
 
     /**
+     * This is just a placeholder, has the name will be set by
+     * the HasPrefix trait.
+     *
+     * @var string The table name.
+     */
+    protected $table = "ai_chats";
+
+    /**
      * @inheritdoc
      */
     protected function getPrefix(): string
