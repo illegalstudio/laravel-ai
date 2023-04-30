@@ -135,12 +135,12 @@ class CompletionBridge implements Bridge
     /**
      * Ask the provider to complete the given text
      */
-    public function complete(string $text): string
+    public function complete(string $text, int $maxTokens = null, float $temperature = null): string
     {
         /**
          * Get the response from the provider, in the TextResponse format
          */
-        $response = $this->provider()->getConnector()->complete($this->model->external_id, $text);
+        $response = $this->provider()->getConnector()->complete($this->model->external_id, $text, $maxTokens, $temperature);
 
         /**
          * Populate local data
