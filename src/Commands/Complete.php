@@ -21,17 +21,24 @@ class Complete extends Command
     {
         $provider = $this->askForProvider();
 
-        while(1) {
+        while (1) {
             $message = $this->ask('You');
             if ($message === 'exit') {
                 break;
             }
+
+            /**
+             * Ask for max tokens and temperaturek
+             */
+            $maxTokens   = $this->ask('Max tokens (leave empty to use defaults)', null);
+            $temperature = $this->ask('Temperature (leave empty to use defaults)', null);
+
             $this->info(
-                'AI: ' .
+                'AI: '.
                 CompletionBridge::new()
                     ->withProvider($provider)
                     ->withModel('text-davinci-003')
-                    ->complete($message)
+                    ->complete($message, $maxTokens, $temperature)
             );
         }
     }
