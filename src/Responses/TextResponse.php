@@ -19,6 +19,11 @@ class TextResponse
     private MessageResponse $message;
 
     /**
+     * @var TokenUsageResponse|null - The token usage, in the TokenUsageResponse format
+     */
+    private ?TokenUsageResponse $tokenUsage = null;
+
+    /**
      * Setter for the external id
      */
     public function withExternalId(string $externalId): self
@@ -50,5 +55,22 @@ class TextResponse
     public function message(): MessageResponse
     {
         return $this->message;
+    }
+
+    /**
+     * Setter for the token usage
+     */
+    public function withTokenUsage(TokenUsageResponse $tokenUsage): self
+    {
+        $this->tokenUsage = $tokenUsage;
+        return $this;
+    }
+
+    /**
+     * Getter for the token usage
+     */
+    public function tokenUsage(): TokenUsageResponse
+    {
+        return $this->tokenUsage;
     }
 }

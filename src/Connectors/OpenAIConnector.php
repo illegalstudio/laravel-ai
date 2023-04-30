@@ -9,6 +9,7 @@ use Illegal\LaravelAI\Enums\Provider;
 use Illegal\LaravelAI\Responses\ImageResponse;
 use Illegal\LaravelAI\Responses\MessageResponse;
 use Illegal\LaravelAI\Responses\TextResponse;
+use Illegal\LaravelAI\Responses\TokenUsageResponse;
 use Illuminate\Support\Collection;
 use OpenAI\Client;
 
@@ -33,7 +34,7 @@ class OpenAIConnector implements Connector
     private float $defaultTemperature = 0;
 
     /**
-     * @param Client $client - The OpenAI client
+     * @param  Client  $client  - The OpenAI client
      */
     public function __construct(protected Client $client)
     {
@@ -73,8 +74,12 @@ class OpenAIConnector implements Connector
      * @inheritDoc
      * @throws Exception
      */
-    public function complete(string $model, string $prompt, int $maxTokens = null, float $temperature = null): TextResponse
-    {
+    public function complete(
+        string $model,
+        string $prompt,
+        int $maxTokens = null,
+        float $temperature = null
+    ): TextResponse {
         $response = $this->client->completions()->create([
             'model'       => $model,
             'prompt'      => $prompt,
@@ -90,6 +95,8 @@ class OpenAIConnector implements Connector
 
         return TextResponse::new()->withExternalId($response->id)->withMessage(
             MessageResponse::new()->withContent(implode("\n--\n", $contents))->withRole('assistant')
+        )->withTokenUsage(
+            TokenUsageResponse::new()->fromArray($response->usage->toArray())
         );
     }
 
@@ -111,7 +118,11 @@ class OpenAIConnector implements Connector
             'messages' => $messages
         ]);
 
-        $response = TextResponse::new()->withExternalId($chat->id);
+        $response = TextResponse::new()->withExternalId($chat->id)
+            ->withTokenUsage(
+                TokenUsageResponse::new()->fromArray($chat->usage->toArray())
+            );
+
 
         foreach ($chat->choices as $choice) {
             $response->withMessage(
@@ -129,9 +140,9 @@ class OpenAIConnector implements Connector
     public function imageGenerate(string $prompt, int $width, int $height): ImageResponse
     {
         $response = $this->client->images()->create([
-            'prompt' => $prompt,
-            'n' => 1,
-            'size' => sprintf('%dx%d', $width, $height),
+            'prompt'          => $prompt,
+            'n'               => 1,
+            'size'            => sprintf('%dx%d', $width, $height),
             'response_format' => 'url'
         ]);
 
