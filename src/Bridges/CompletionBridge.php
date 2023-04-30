@@ -5,9 +5,9 @@ namespace Illegal\LaravelAI\Bridges;
 use Exception;
 use Illegal\LaravelAI\Contracts\Bridge;
 use Illegal\LaravelAI\Contracts\HasModel;
-use Illegal\LaravelAI\Contracts\HasNew;
 use Illegal\LaravelAI\Contracts\HasProvider;
 use Illegal\LaravelAI\Models\Completion;
+use Illegal\LaravelUtils\Contracts\HasNew;
 use Illuminate\Database\Eloquent\Model;
 
 class CompletionBridge implements Bridge

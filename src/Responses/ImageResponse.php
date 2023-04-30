@@ -2,7 +2,7 @@
 
 namespace Illegal\LaravelAI\Responses;
 
-use Illegal\LaravelAI\Contracts\HasNew;
+use Illegal\LaravelUtils\Contracts\HasNew;
 
 class ImageResponse
 {
