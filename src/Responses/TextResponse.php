@@ -68,9 +68,10 @@ class TextResponse
 
     /**
      * Getter for the token usage
+     * If the token usage is null, a new TokenUsageResponse with default values will be returned
      */
     public function tokenUsage(): TokenUsageResponse
     {
-        return $this->tokenUsage;
+        return $this->tokenUsage ?? TokenUsageResponse::new();
     }
 }

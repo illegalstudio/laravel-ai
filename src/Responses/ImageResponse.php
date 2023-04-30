@@ -24,6 +24,11 @@ class ImageResponse
     private string $b64Json;
 
     /**
+     * @var TokenUsageResponse|null - The token usage, in the TokenUsageResponse format
+     */
+    private ?TokenUsageResponse $tokenUsage = null;
+
+    /**
      * Setter for the createdAt
      */
     public function withCreatedAt(string $createdAt): self
@@ -72,5 +77,23 @@ class ImageResponse
     public function b64Json(): string
     {
         return $this->b64Json;
+    }
+
+    /**
+     * Setter for the tokenUsage
+     */
+    public function withTokenUsage(TokenUsageResponse $tokenUsage): self
+    {
+        $this->tokenUsage = $tokenUsage;
+        return $this;
+    }
+
+    /**
+     * Getter for the tokenUsage
+     * If the token usage is null, a new TokenUsageResponse with default values will be returned
+     */
+    public function tokenUsage(): TokenUsageResponse
+    {
+        return $this->tokenUsage ?? TokenUsageResponse::new();
     }
 }
