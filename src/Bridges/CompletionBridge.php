@@ -16,24 +16,24 @@ class CompletionBridge implements Bridge
     use HasProvider, HasModel, HasNew;
 
     /**
-     * @var string $externalId The external id of the completion, returned by the provider
+     * @var string|null $externalId The external id of the completion, returned by the provider
      */
-    private string $externalId;
+    private ?string $externalId = null;
 
     /**
-     * @var string $prompt The prompt of the completion, provided by the user
+     * @var string|null $prompt The prompt of the completion, provided by the user
      */
-    private string $prompt;
+    private ?string $prompt = null;
 
     /**
-     * @var string $answer The answer to the prompt, returned by the provider
+     * @var string|null $answer The answer to the prompt, returned by the provider
      */
-    private string $answer;
+    private ?string $answer = null;
 
     /**
      * @var Completion|null $completion The corresponding completion model
      */
-    private ?Completion $completion;
+    private ?Completion $completion = null;
 
     /**
      * Setter for the external id
@@ -47,7 +47,7 @@ class CompletionBridge implements Bridge
     /**
      * Getter for the external id
      */
-    public function externalId(): string
+    public function externalId(): ?string
     {
         return $this->externalId;
     }
@@ -64,7 +64,7 @@ class CompletionBridge implements Bridge
     /**
      * Getter for the prompt
      */
-    public function prompt(): string
+    public function prompt(): ?string
     {
         return $this->prompt;
     }
@@ -81,7 +81,7 @@ class CompletionBridge implements Bridge
     /**
      * Getter for the answer
      */
-    public function answer(): string
+    public function answer(): ?string
     {
         return $this->answer;
     }
@@ -104,7 +104,7 @@ class CompletionBridge implements Bridge
     /**
      * Getter for the completion
      */
-    public function completion(): Completion
+    public function completion(): ?Completion
     {
         return $this->completion;
     }
@@ -133,9 +133,20 @@ class CompletionBridge implements Bridge
         return $this->completion;
     }
 
+    /**
+     * Save the request to the database, with the corresponding token usage
+     */
     public function saveRequest(TokenUsageResponse $tokenUsage): ApiRequest
     {
-        return ApiRequest::create($tokenUsage->toArray());
+        $apiRequest              = ApiRequest::new()->fill($tokenUsage->toArray());
+        $apiRequest->external_id = $this->externalId();
+
+        if ($this->completion()) {
+            $apiRequest->requestable()->associate($this->completion());
+        }
+
+        $apiRequest->save();
+        return $apiRequest;
     }
 
     /**
@@ -157,7 +168,8 @@ class CompletionBridge implements Bridge
         $this->answer     = $response->message()->content();
 
         /**
-         * Import into a model
+         * 1. Import into a model
+         * 2. Save the request
          */
         $this->import();
         $this->saveRequest($response->tokenUsage());
