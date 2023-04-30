@@ -2,7 +2,6 @@
 
 namespace Illegal\LaravelAI\Bridges;
 
-use Exception;
 use Illegal\LaravelAI\Contracts\Bridge;
 use Illegal\LaravelAI\Contracts\HasModel;
 use Illegal\LaravelAI\Contracts\HasProvider;

@@ -2,6 +2,7 @@
 
 namespace Illegal\LaravelAI\Commands;
 
+use Exception;
 use Illegal\LaravelAI\Bridges\CompletionBridge;
 use Illegal\LaravelAI\Contracts\ConsoleProviderDependent;
 use Illuminate\Console\Command;
@@ -15,7 +16,7 @@ class Complete extends Command
     protected $description = 'Use the AI to complete your prompt';
 
     /**
-     * @throws \Exception
+     * @throws Exception
      */
     public function handle(): void
     {

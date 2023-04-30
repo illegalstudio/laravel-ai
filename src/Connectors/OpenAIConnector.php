@@ -3,9 +3,9 @@
 namespace Illegal\LaravelAI\Connectors;
 
 use Exception;
+use Illegal\LaravelAI\Bridges\ModelBridge;
 use Illegal\LaravelAI\Contracts\Connector;
 use Illegal\LaravelAI\Enums\Provider;
-use Illegal\LaravelAI\Bridges\ModelBridge;
 use Illegal\LaravelAI\Responses\ImageResponse;
 use Illegal\LaravelAI\Responses\MessageResponse;
 use Illegal\LaravelAI\Responses\TextResponse;

@@ -2,8 +2,8 @@
 
 namespace Illegal\LaravelAI\Enums;
 
-use Illegal\LaravelAI\Contracts\Connector;
 use Illegal\LaravelAI\Connectors\OpenAIConnector;
+use Illegal\LaravelAI\Contracts\Connector;
 
 /**
  * This is an enumeration of all possible providers

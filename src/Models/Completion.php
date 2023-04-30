@@ -5,7 +5,6 @@ namespace Illegal\LaravelAI\Models;
 use Illegal\LaravelAI\Contracts\BelongsToModel;
 use Illegal\LaravelUtils\Contracts\HasPrefix;
 use Illuminate\Database\Eloquent\Model as EloquentModel;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Completion extends EloquentModel
 {
