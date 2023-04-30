@@ -18,13 +18,38 @@ class ImageGenerate extends Command
     {
         $provider = $this->askForProvider();
 
-        $prompt = $this->ask('You');
+        /**
+         * Ask for prompt
+         */
+        $prompt = $this->ask('Image prompt');
 
+        /**
+         * Ask for width and height
+         */
+        do {
+            $width = (int) $this->ask('Image width', 256);
+
+            if ($width < 1) {
+                $this->error('Width must be greater than 0');
+            }
+        } while ($width < 1);
+
+        do {
+            $height = (int) $this->ask('Image height', 256);
+
+            if ($height < 1) {
+                $this->error('Height must be greater than 0');
+            }
+        } while ($height < 1);
+
+        /**
+         * Generate image
+         */
         $this->info(
-            'AI: ' .
+            'AI: '.
             ImageBridge::new()
                 ->withProvider($provider)
-                ->generate($prompt, 256, 256)
+                ->generate($prompt, $width, $height)
         );
     }
 }
