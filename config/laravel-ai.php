@@ -1,6 +1,9 @@
 <?php
 
 return [
+    'db'     => [
+        'prefix' => env('AI_DB_PREFIX', 'ai_'),
+    ],
     'openai' => [
         'api_key'             => env('AI_OPENAI_API_KEY', null),
         'default_max_tokens'  => env('AI_OPENAI_DEFAULT_MAX_TOKENS', 5),

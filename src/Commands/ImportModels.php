@@ -2,9 +2,9 @@
 
 namespace Illegal\LaravelAI\Commands;
 
+use Illegal\LaravelAI\Bridges\ModelBridge;
 use Illegal\LaravelAI\Contracts\ConsoleProviderDependent;
 use Illegal\LaravelAI\Models\Model;
-use Illegal\LaravelAI\Bridges\ModelBridge;
 use Illuminate\Console\Command;
 
 class ImportModels extends Command

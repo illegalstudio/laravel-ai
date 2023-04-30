@@ -2,12 +2,13 @@
 
 namespace Illegal\LaravelAI\Bridges;
 
-use Exception;
 use Illegal\LaravelAI\Contracts\Bridge;
 use Illegal\LaravelAI\Contracts\HasModel;
-use Illegal\LaravelAI\Contracts\HasNew;
 use Illegal\LaravelAI\Contracts\HasProvider;
+use Illegal\LaravelAI\Models\ApiRequest;
 use Illegal\LaravelAI\Models\Chat;
+use Illegal\LaravelAI\Responses\TokenUsageResponse;
+use Illegal\LaravelUtils\Contracts\HasNew;
 use Illuminate\Database\Eloquent\Model;
 
 final class ChatBridge implements Bridge
@@ -17,7 +18,7 @@ final class ChatBridge implements Bridge
     /**
      * @var string|null $externalId The external id of the chat, returned by the provider
      */
-    private ?string $externalId;
+    private ?string $externalId = null;
 
     /**
      * @var array $messages The messages sent and received in the chat
@@ -27,7 +28,7 @@ final class ChatBridge implements Bridge
     /**
      * @var Chat|null $chat The corresponding chat model
      */
-    private ?Chat $chat;
+    private ?Chat $chat = null;
 
     /**
      * Setter for the external id
@@ -41,7 +42,7 @@ final class ChatBridge implements Bridge
     /**
      * Getter for the external id
      */
-    public function externalId(): string
+    public function externalId(): ?string
     {
         return $this->externalId;
     }
@@ -80,7 +81,7 @@ final class ChatBridge implements Bridge
     /**
      * Getter for the chat
      */
-    public function chat(): Chat
+    public function chat(): ?Chat
     {
         return $this->chat;
     }
@@ -102,10 +103,26 @@ final class ChatBridge implements Bridge
      */
     public function import(): Model
     {
-        $this->chat = $this->chat ?? ( new Chat );
+        $this->chat = $this->chat ?? (new Chat);
         $this->chat->forceFill($this->toArray())->save();
 
         return $this->chat;
+    }
+
+    /**
+     * Save the request to the database, with the corresponding token usage
+     */
+    public function saveRequest(TokenUsageResponse $tokenUsage): ApiRequest
+    {
+        $apiRequest              = ApiRequest::new()->fill($tokenUsage->toArray());
+        $apiRequest->external_id = $this->externalId();
+
+        if($this->chat()) {
+            $apiRequest->requestable()->associate($this->chat());
+        }
+
+        $apiRequest->save();
+        return $apiRequest;
     }
 
     /**
@@ -133,9 +150,11 @@ final class ChatBridge implements Bridge
         $this->messages   = array_merge($this->messages, [$response->message()->toArray()]);
 
         /**
-         * Import into a model
+         * 1. Import into a model
+         * 2. Save the request
          */
         $this->import();
+        $this->saveRequest($response->tokenUsage());
 
         /**
          * Return the content of the response

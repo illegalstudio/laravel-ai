@@ -2,7 +2,7 @@
 
 namespace Illegal\LaravelAI\Responses;
 
-use Illegal\LaravelAI\Contracts\HasNew;
+use Illegal\LaravelUtils\Contracts\HasNew;
 
 class TextResponse
 {
@@ -17,6 +17,11 @@ class TextResponse
      * @var MessageResponse $message - The message, in the MessageResponse format
      */
     private MessageResponse $message;
+
+    /**
+     * @var TokenUsageResponse|null - The token usage, in the TokenUsageResponse format
+     */
+    private ?TokenUsageResponse $tokenUsage = null;
 
     /**
      * Setter for the external id
@@ -50,5 +55,23 @@ class TextResponse
     public function message(): MessageResponse
     {
         return $this->message;
+    }
+
+    /**
+     * Setter for the token usage
+     */
+    public function withTokenUsage(TokenUsageResponse $tokenUsage): self
+    {
+        $this->tokenUsage = $tokenUsage;
+        return $this;
+    }
+
+    /**
+     * Getter for the token usage
+     * If the token usage is null, a new TokenUsageResponse with default values will be returned
+     */
+    public function tokenUsage(): TokenUsageResponse
+    {
+        return $this->tokenUsage ?? TokenUsageResponse::new();
     }
 }

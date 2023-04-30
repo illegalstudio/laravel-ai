@@ -2,12 +2,13 @@
 
 namespace Illegal\LaravelAI\Bridges;
 
-use Exception;
 use Illegal\LaravelAI\Contracts\Bridge;
 use Illegal\LaravelAI\Contracts\HasModel;
-use Illegal\LaravelAI\Contracts\HasNew;
 use Illegal\LaravelAI\Contracts\HasProvider;
+use Illegal\LaravelAI\Models\ApiRequest;
 use Illegal\LaravelAI\Models\Image;
+use Illegal\LaravelAI\Responses\TokenUsageResponse;
+use Illegal\LaravelUtils\Contracts\HasNew;
 use Illuminate\Database\Eloquent\Model;
 
 class ImageBridge implements Bridge
@@ -17,32 +18,32 @@ class ImageBridge implements Bridge
     /**
      * @var string|null $externalId The external id of the image, returned by the provider
      */
-    private ?string $externalId;
+    private ?string $externalId = null;
 
     /**
      * @var string|null $prompt The prompt of the image, provided by the user
      */
-    private ?string $prompt;
+    private ?string $prompt = null;
 
     /**
      * @var int|null $width The width of the image, provided by the user
      */
-    private ?int $width;
+    private ?int $width = null;
 
     /**
      * @var int|null $height The height of the image, provided by the user
      */
-    private ?int $height;
+    private ?int $height = null;
 
     /**
      * @var string|null $url The url of the image, returned by the provider
      */
-    private ?string $url;
+    private ?string $url = null;
 
     /**
      * @var Image|null $image The corresponding image model
      */
-    private ?Image $image;
+    private ?Image $image = null;
 
     /**
      * Setter for the external id
@@ -56,7 +57,7 @@ class ImageBridge implements Bridge
     /**
      * Getter for the external id
      */
-    public function externalId(): string
+    public function externalId(): ?string
     {
         return $this->externalId;
     }
@@ -73,7 +74,7 @@ class ImageBridge implements Bridge
     /**
      * Getter for the prompt
      */
-    public function prompt(): string
+    public function prompt(): ?string
     {
         return $this->prompt;
     }
@@ -90,7 +91,7 @@ class ImageBridge implements Bridge
     /**
      * Getter for the width
      */
-    public function width(): int
+    public function width(): ?int
     {
         return $this->width;
     }
@@ -107,7 +108,7 @@ class ImageBridge implements Bridge
     /**
      * Getter for the height
      */
-    public function height(): int
+    public function height(): ?int
     {
         return $this->height;
     }
@@ -124,7 +125,7 @@ class ImageBridge implements Bridge
     /**
      * Getter for the url
      */
-    public function url(): string
+    public function url(): ?string
     {
         return $this->url;
     }
@@ -148,7 +149,7 @@ class ImageBridge implements Bridge
     /**
      * Getter for the image
      */
-    public function image(): Image
+    public function image(): ?Image
     {
         return $this->image;
     }
@@ -178,6 +179,22 @@ class ImageBridge implements Bridge
     }
 
     /**
+     * Saves the request into the database, with the corresponding token usage
+     */
+    public function saveRequest(TokenUsageResponse $tokenUsage): ApiRequest
+    {
+        $apiRequest = ApiRequest::new()->fill($tokenUsage->toArray());
+        $apiRequest->external_id = $this->externalId();
+
+        if($this->image()) {
+            $apiRequest->requestable()->associate($this->image());
+        }
+
+        $apiRequest->save();
+        return $apiRequest;
+    }
+
+    /**
      * Generates an image, using the AI provider
      */
     public function generate(string $prompt, int $width, int $height): string
@@ -196,9 +213,11 @@ class ImageBridge implements Bridge
         $this->url    = $response->url();
 
         /**
-         * Import into a model
+         * 1. Import into a model
+         * 2. Save the request
          */
         $this->import();
+        $this->saveRequest($response->tokenUsage());
 
         /**
          * Return the url
