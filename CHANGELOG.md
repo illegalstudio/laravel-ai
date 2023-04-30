@@ -12,6 +12,8 @@ in your `.env` file:
 AI_DB_PREFIX=
 ```
 
+- Added a new table `requests` to store all the requests made to the API. In the table are stored token usage - expect for image requests on the openai provider
+
 
 # v0.1.2
 
