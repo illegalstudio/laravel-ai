@@ -10,12 +10,20 @@ class ImageGenerate extends Command
 {
     use ConsoleProviderDependent;
 
-    protected $signature = 'ai:image:generate';
+    protected $signature = 'ai:image:generate {--E|ephemeral}';
 
     protected $description = 'Command description';
 
     public function handle(): void
     {
+        /**
+         * Gather the ephemeral option. If true, the data of the request will not be stored in the database
+         */
+        $isEphemeral = $this->option('ephemeral');
+
+        /**
+         * Ask for provider
+         */
         $provider = $this->askForProvider();
 
         /**
@@ -49,6 +57,7 @@ class ImageGenerate extends Command
             'AI: '.
             ImageBridge::new()
                 ->withProvider($provider)
+                ->withIsEphemeral($isEphemeral)
                 ->generate($prompt, $width, $height)
         );
     }
