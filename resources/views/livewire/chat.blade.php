@@ -14,6 +14,7 @@
                 @endforeach
             </div>
             <div class="fixed bottom-0 h-20 w-full bg-white">
+                <label for="message" class="hidden">Message</label>
                 <input type="text" name="message" id="message"
                        wire:model.defer="message" wire:keydown.enter="sendChat"
                 >
