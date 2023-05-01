@@ -94,7 +94,9 @@ class ServiceProvider extends IlluminateServiceProvider
          * Boot authentication
          */
         InsideAuth::boot(config('laravel-ai.interface.auth.name'))
-            ->enabled(config('laravel-ai.interface.auth.enabled'))
+            ->enabled(
+                config('laravel-ai.interface.enabled') && config('laravel-ai.interface.auth.enabled')
+            )
             ->withoutEmailVerification(config('laravel-ai.interface.auth.disable.email_verification'))
             ->withoutRegistration(config('laravel-ai.interface.auth.disable.registration'))
             ->withoutForgotPassword(config('laravel-ai.interface.auth.disable.forgot_password'))
