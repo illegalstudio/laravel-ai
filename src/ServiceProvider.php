@@ -2,6 +2,9 @@
 
 namespace Illegal\LaravelAI;
 
+use Exception;
+use Illegal\InsideAuth\InsideAuth;
+use Illegal\LaravelAI\Auth\Authentication;
 use Illegal\LaravelAI\Commands\Chat;
 use Illegal\LaravelAI\Commands\Complete;
 use Illegal\LaravelAI\Commands\ImageGenerate;
@@ -15,22 +18,25 @@ class ServiceProvider extends IlluminateServiceProvider
 {
     /**
      * Bootstrap any application services.
+     * @throws Exception
      */
     public function boot(): void
     {
-        $this->loadMigrations();
+        $this->migrations();
         $this->registerCommands();
-        $this->mergeConfigurations();
-        $this->configureDependencyInjection();
+        $this->configuration();
+        $this->dependencyInjection();
+        $this->views();
+        $this->auth();
     }
 
     /**
      * Load the migrations
      */
-    private function loadMigrations(): void
+    private function migrations(): void
     {
         $this->loadMigrationsFrom([
-            __DIR__ . '/../database/migrations/'
+            __DIR__.'/../database/migrations/'
         ]);
     }
 
@@ -50,15 +56,15 @@ class ServiceProvider extends IlluminateServiceProvider
     /**
      * Merge the config
      */
-    private function mergeConfigurations(): void
+    private function configuration(): void
     {
-        $this->mergeConfigFrom(__DIR__ . "/../config/laravel-ai.php", "laravel-ai");
+        $this->mergeConfigFrom(__DIR__."/../config/laravel-ai.php", "laravel-ai");
     }
 
     /**
      * Configure the Dependency Injection
      */
-    private function configureDependencyInjection(): void
+    private function dependencyInjection(): void
     {
         /**
          * The OpenAI client
@@ -70,9 +76,41 @@ class ServiceProvider extends IlluminateServiceProvider
          * The OpenAI connector
          */
         $this->app->singleton(OpenAIConnector::class, function (Application $app) {
-            return ( new OpenAIConnector($app->make(OpenAI\Client::class)) )
+            return (new OpenAIConnector($app->make(OpenAI\Client::class)))
                 ->withDefaultMaxTokens(config('laravel-ai.openai.default_max_tokens'))
                 ->withDefaultTemperature(config('laravel-ai.openai.default_temperature'));
+        });
+    }
+
+    /**
+     * Loads the views
+     */
+    private function views(): void
+    {
+        $this->loadViewsFrom(__DIR__."/../resources/views", "laravel-ai");
+    }
+
+    /**
+     * Boot the authentication using illegal/insideauth package
+     *
+     * @throws Exception
+     */
+    private function auth(): void
+    {
+        /**
+         * Boot authentication
+         */
+        InsideAuth::boot(config('laravel-ai.interface.auth.name'))
+            ->enabled(config('laravel-ai.interface.auth.enabled'))
+            ->withoutEmailVerification(config('laravel-ai.interface.auth.disable.email_verification'))
+            ->withoutRegistration(config('laravel-ai.interface.auth.disable.registration'))
+            ->withoutForgotPassword(config('laravel-ai.interface.auth.disable.forgot_password'))
+            ->withoutUserProfile(config('laravel-ai.interface.auth.disable.user_profile'))
+            ->withDashboard('chat');
+
+        $this->app->singleton(Authentication::class, function () {
+            return new Authentication(config('laravel-ai.interface.auth.name'),
+                config('laravel-ai.interface.auth.enabled'));
         });
     }
 }
