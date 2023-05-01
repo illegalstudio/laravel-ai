@@ -3,6 +3,7 @@
 namespace Illegal\LaravelAI\Bridges;
 
 use Illegal\LaravelAI\Contracts\Bridge;
+use Illegal\LaravelAI\Contracts\HasEphemeral;
 use Illegal\LaravelAI\Contracts\HasModel;
 use Illegal\LaravelAI\Contracts\HasProvider;
 use Illegal\LaravelAI\Models\ApiRequest;
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ImageBridge implements Bridge
 {
-    use HasProvider, HasModel, HasNew;
+    use HasProvider, HasEphemeral, HasModel, HasNew;
 
     /**
      * @var string|null $externalId The external id of the image, returned by the provider
@@ -172,7 +173,7 @@ class ImageBridge implements Bridge
      */
     public function import(): Model
     {
-        $this->image = $this->image ?? ( new Image );
+        $this->image = $this->image ?? (new Image);
         $this->image->forceFill($this->toArray())->save();
 
         return $this->image;
@@ -183,10 +184,10 @@ class ImageBridge implements Bridge
      */
     public function saveRequest(TokenUsageResponse $tokenUsage): ApiRequest
     {
-        $apiRequest = ApiRequest::new()->fill($tokenUsage->toArray());
+        $apiRequest              = ApiRequest::new()->fill($tokenUsage->toArray());
         $apiRequest->external_id = $this->externalId();
 
-        if($this->image()) {
+        if ($this->image()) {
             $apiRequest->requestable()->associate($this->image());
         }
 
@@ -213,10 +214,12 @@ class ImageBridge implements Bridge
         $this->url    = $response->url();
 
         /**
-         * 1. Import into a model
+         * 1. Import into a model, if not ephemeral
          * 2. Save the request
          */
-        $this->import();
+        if (!$this->isEphemeral()) {
+            $this->import();
+        }
         $this->saveRequest($response->tokenUsage());
 
         /**

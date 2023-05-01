@@ -24,6 +24,29 @@ interface Bridge
     public function withProvider(Provider $provider): self;
 
     /**
+     * Get the provider for the bridge.
+     * This is implemented in the HasProvider trait.
+     * Bridges should implement this interface and use the trait.
+     */
+    public function provider(): Provider;
+
+    /**
+     * Set the isEphemeral flag for the bridge.
+     * If true, the bridge will not save the model in the database.
+     * This is implemented in the HasEpemeral trait.
+     * Bridges should implement this interface and use the trait.
+     */
+    public function withIsEphemeral(bool $isEphemeral): self;
+
+    /**
+     * Get the isEphemeral flag for the bridge.
+     * If true, the bridge will not save the model in the database.
+     * This is implemented in the HasEpemeral trait.
+     * Bridges should implement this interface and use the trait.
+     */
+    public function isEphemeral(): bool;
+
+    /**
      * This function should return an array representation of the current bridge.
      */
     public function toArray(): array;
