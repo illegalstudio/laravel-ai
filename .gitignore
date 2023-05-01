@@ -5,6 +5,7 @@ vendor
 composer.lock
 package-lock.json
 phpunit.xml
+public/hot
 .env
 .phpunit.result.cache
 .php-cs-fixer.cache
