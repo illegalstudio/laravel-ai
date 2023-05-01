@@ -2,6 +2,7 @@
 build
 vendor
 composer.lock
+package-lock.json
 phpunit.xml
 .env
 .phpunit.result.cache
