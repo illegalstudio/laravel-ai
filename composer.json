@@ -26,7 +26,8 @@
         "illegal/laravel-utils": "^1.1",
         "illegal/insideauth": "^0.2.12",
         "laravel/framework": "^9.19|^10",
-        "openai-php/client": "^0.3.5"
+        "openai-php/client": "^0.3.5",
+        "livewire/livewire": "^2.11"
     },
     "require-dev": {
 
