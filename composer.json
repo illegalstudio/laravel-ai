@@ -2,7 +2,7 @@
     "name": "illegal/laravel-ai",
     "description": "A laravel plugin to interact with AI providers",
     "type": "library",
-    "licence": "MIT",
+    "license": "MIT",
     "keywords": [
         "laravel",
         "ai",
