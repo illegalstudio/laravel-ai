@@ -5,13 +5,11 @@ namespace Illegal\LaravelAI;
 use Exception;
 use Illegal\InsideAuth\InsideAuth;
 use Illegal\LaravelAI\Auth\Authentication;
-use Illegal\LaravelAI\Commands\Chat;
-use Illegal\LaravelAI\Commands\Complete;
-use Illegal\LaravelAI\Commands\ImageGenerate;
-use Illegal\LaravelAI\Commands\ModelsImport;
 use Illegal\LaravelAI\Connectors\OpenAIConnector;
+use Illegal\LaravelAI\Http\Livewire\ChatComponent;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
+use Livewire;
 use OpenAI;
 
 class ServiceProvider extends IlluminateServiceProvider
@@ -34,6 +32,7 @@ class ServiceProvider extends IlluminateServiceProvider
         $this->migrations();
         $this->views();
         $this->auth();
+        $this->livewire();
     }
 
     /**
@@ -107,5 +106,13 @@ class ServiceProvider extends IlluminateServiceProvider
             return new Authentication(config('laravel-ai.interface.auth.name'),
                 config('laravel-ai.interface.auth.enabled'));
         });
+    }
+
+    /**
+     * Register the livewire components
+     */
+    private function livewire(): void
+    {
+        Livewire::component('laravel-ai::chat', ChatComponent::class);
     }
 }
