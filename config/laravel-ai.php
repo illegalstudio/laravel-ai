@@ -12,12 +12,13 @@ return [
     'interface' => [
         'enabled' => env('AI_INTERFACE_ENABLED', true),
         'auth'    => [
-            'name'    => env('AI_INTERFACE_AUTH_NAME', 'laravel-ai'),
-            'enabled' => env('AI_INTERFACE_AUTH_ENABLED', true),
-            'disable' => [
-                'email_verification' => env('AI_INTERFACE_AUTH_DISABLE_EMAIL_VERIFICATION', false),
+            'enabled'      => env('AI_INTERFACE_AUTH_ENABLED', true),
+            'name'         => env('AI_INTERFACE_AUTH_NAME', 'laravel-ai'),
+            'require_user' => env('AI_INTERFACE_AUTH_REQUIRE_USER', true),
+            'disable'      => [
                 'registration'       => env('AI_INTERFACE_AUTH_DISABLE_REGISTRATION', false),
                 'forgot_password'    => env('AI_INTERFACE_AUTH_DISABLE_FORGOT_PASSWORD', false),
+                'email_verification' => env('AI_INTERFACE_AUTH_DISABLE_EMAIL_VERIFICATION', false),
                 'user_profile'       => env('AI_INTERFACE_AUTH_DISABLE_USER_PROFILE', false),
             ]
         ],
