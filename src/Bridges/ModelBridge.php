@@ -3,6 +3,7 @@
 namespace Illegal\LaravelAI\Bridges;
 
 use Illegal\LaravelAI\Contracts\Bridge;
+use Illegal\LaravelAI\Contracts\HasEphemeral;
 use Illegal\LaravelAI\Contracts\HasModel;
 use Illegal\LaravelAI\Contracts\HasProvider;
 use Illegal\LaravelAI\Models\Model;
@@ -10,7 +11,7 @@ use Illegal\LaravelUtils\Contracts\HasNew;
 
 final class ModelBridge implements Bridge
 {
-    use HasProvider, HasModel, HasNew;
+    use HasProvider, HasEphemeral, HasModel, HasNew;
 
     /**
      * @var string $externalId The external id of the model, returned by the provider

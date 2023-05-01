@@ -3,6 +3,7 @@
 namespace Illegal\LaravelAI\Bridges;
 
 use Illegal\LaravelAI\Contracts\Bridge;
+use Illegal\LaravelAI\Contracts\HasEphemeral;
 use Illegal\LaravelAI\Contracts\HasModel;
 use Illegal\LaravelAI\Contracts\HasProvider;
 use Illegal\LaravelAI\Models\ApiRequest;
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CompletionBridge implements Bridge
 {
-    use HasProvider, HasModel, HasNew;
+    use HasProvider, HasEphemeral, HasModel, HasNew;
 
     /**
      * @var string|null $externalId The external id of the completion, returned by the provider
@@ -152,8 +153,11 @@ class CompletionBridge implements Bridge
     /**
      * Ask the provider to complete the given text
      */
-    public function complete(string $text, int $maxTokens = null, float $temperature = null): string
-    {
+    public function complete(
+        string $text,
+        int $maxTokens = null,
+        float $temperature = null
+    ): string {
         /**
          * Get the response from the provider, in the TextResponse format
          */
@@ -168,10 +172,12 @@ class CompletionBridge implements Bridge
         $this->answer     = $response->message()->content();
 
         /**
-         * 1. Import into a model
+         * 1. Import into a model, if not ephemeral
          * 2. Save the request
          */
-        $this->import();
+        if (!$this->isEphemeral()) {
+            $this->import();
+        }
         $this->saveRequest($response->tokenUsage());
 
         /**

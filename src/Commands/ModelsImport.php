@@ -7,14 +7,14 @@ use Illegal\LaravelAI\Contracts\ConsoleProviderDependent;
 use Illegal\LaravelAI\Models\Model;
 use Illuminate\Console\Command;
 
-class ImportModels extends Command
+class ModelsImport extends Command
 {
     use ConsoleProviderDependent;
 
     /**
      * @var string The signature of the console command.
      */
-    protected $signature = 'ai:import-models';
+    protected $signature = 'ai:models:import';
 
     /**
      * @var string The description of the console command.

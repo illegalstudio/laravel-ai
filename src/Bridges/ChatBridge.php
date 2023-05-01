@@ -3,6 +3,7 @@
 namespace Illegal\LaravelAI\Bridges;
 
 use Illegal\LaravelAI\Contracts\Bridge;
+use Illegal\LaravelAI\Contracts\HasEphemeral;
 use Illegal\LaravelAI\Contracts\HasModel;
 use Illegal\LaravelAI\Contracts\HasProvider;
 use Illegal\LaravelAI\Models\ApiRequest;
@@ -13,7 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 
 final class ChatBridge implements Bridge
 {
-    use HasProvider, HasModel, HasNew;
+    use HasProvider, HasEphemeral, HasModel, HasNew;
 
     /**
      * @var string|null $externalId The external id of the chat, returned by the provider
@@ -117,7 +118,7 @@ final class ChatBridge implements Bridge
         $apiRequest              = ApiRequest::new()->fill($tokenUsage->toArray());
         $apiRequest->external_id = $this->externalId();
 
-        if($this->chat()) {
+        if ($this->chat()) {
             $apiRequest->requestable()->associate($this->chat());
         }
 
@@ -127,8 +128,10 @@ final class ChatBridge implements Bridge
 
     /**
      * Send a message to the chat
+     *
+     * @param  string  $message  The message to send
      */
-    public function send($message): string
+    public function send(string $message): string
     {
         /**
          * Append the message to the messages array
@@ -150,10 +153,12 @@ final class ChatBridge implements Bridge
         $this->messages   = array_merge($this->messages, [$response->message()->toArray()]);
 
         /**
-         * 1. Import into a model
+         * 1. Import into a model, only if the request is not ephemeral
          * 2. Save the request
          */
-        $this->import();
+        if (!$this->isEphemeral()) {
+            $this->import();
+        }
         $this->saveRequest($response->tokenUsage());
 
         /**
