@@ -17,15 +17,21 @@ use OpenAI;
 class ServiceProvider extends IlluminateServiceProvider
 {
     /**
+     * Register any application services.
+     */
+    public function register(): void
+    {
+        $this->dependencyInjection();
+        $this->configuration();
+    }
+
+    /**
      * Bootstrap any application services.
      * @throws Exception
      */
     public function boot(): void
     {
         $this->migrations();
-        $this->registerCommands();
-        $this->configuration();
-        $this->dependencyInjection();
         $this->views();
         $this->auth();
     }
@@ -37,19 +43,6 @@ class ServiceProvider extends IlluminateServiceProvider
     {
         $this->loadMigrationsFrom([
             __DIR__.'/../database/migrations/'
-        ]);
-    }
-
-    /**
-     * Register the commands
-     */
-    private function registerCommands(): void
-    {
-        $this->commands([
-            Chat::class,
-            Complete::class,
-            ImageGenerate::class,
-            ModelsImport::class,
         ]);
     }
 
