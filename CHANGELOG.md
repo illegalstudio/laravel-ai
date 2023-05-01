@@ -1,5 +1,11 @@
 # Unreleased
 
+# v0.1.4
+
+**Release date**: 2023-05-01
+
+- Added ephemeral options to bridges. When the ephemeral flag is on, the bridge will not store data in the database. Only usages will be stored in the `requests` table.
+
 # v0.1.3
 
 **Release date**: 2023-04-30
