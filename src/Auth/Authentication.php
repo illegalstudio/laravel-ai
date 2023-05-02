@@ -50,4 +50,12 @@ class Authentication
         return $this->authenticator->middleware_web;
     }
 
+    /**
+     * Returns the list of the middleware classes used to authenticate
+     */
+    public function middlewareClasses(): array
+    {
+        return $this->authenticator->middleware_classes;
+    }
+
 }
