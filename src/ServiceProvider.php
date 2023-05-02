@@ -102,10 +102,20 @@ class ServiceProvider extends IlluminateServiceProvider
             ->withoutUserProfile(config('laravel-ai.interface.auth.disable.user_profile'))
             ->withDashboard('chat');
 
+        /**
+         * Register helper singleton
+         */
         $this->app->singleton(Authentication::class, function () {
             return new Authentication(config('laravel-ai.interface.auth.name'),
                 config('laravel-ai.interface.auth.enabled'));
         });
+
+        /**
+         * Add the middleware use to check if the user is logged in
+         * to the list of persistent middleware that will be applied
+         * on subsequent requests by livewire.
+         */
+        Livewire::addPersistentMiddleware(LaravelAIAuth::middlewareClasses());
     }
 
     /**
