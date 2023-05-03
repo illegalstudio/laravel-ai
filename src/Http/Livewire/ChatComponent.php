@@ -69,8 +69,10 @@ class ChatComponent extends Component
         /**
          * Refresh the chat object to the one holded by the bridge
          */
-        if(null === $this->chat) {
+        if (null === $this->chat) {
             $this->chat = $this->chatBridge->chat();
         }
+
+        $this->dispatchBrowserEvent('scroll-to-bottom');
     }
 }
