@@ -7,6 +7,7 @@ use Illegal\InsideAuth\InsideAuth;
 use Illegal\LaravelAI\Auth\Authentication;
 use Illegal\LaravelAI\Connectors\OpenAIConnector;
 use Illegal\LaravelAI\Http\Livewire\ChatComponent;
+use Illegal\LaravelAI\Http\Livewire\ChatList;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider as IlluminateServiceProvider;
 use Livewire;
@@ -124,5 +125,6 @@ class ServiceProvider extends IlluminateServiceProvider
     private function livewire(): void
     {
         Livewire::component('laravel-ai::chat-component', ChatComponent::class);
+        Livewire::component('laravel-ai::chat-list', ChatList::class);
     }
 }

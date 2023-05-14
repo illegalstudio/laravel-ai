@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
     {{ Vite::useHotFile(base_path() . '/vendor/illegal/laravel-ai/public/hot')->useBuildDirectory('vendor/laravel-ai/linky')->withEntryPoints([ 'resources/css/app.scss' ]) }}
+
     @livewireStyles
 </head>
 <body class="h-full"
