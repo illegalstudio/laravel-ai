@@ -54,7 +54,7 @@ class ChatComponent extends Component
      */
     public function render(): Factory|Application|View
     {
-        return view('laravel-ai::livewire.chat');
+        return view('laravel-ai::livewire.chat-component');
     }
 
     /**

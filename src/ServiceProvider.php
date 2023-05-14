@@ -123,6 +123,6 @@ class ServiceProvider extends IlluminateServiceProvider
      */
     private function livewire(): void
     {
-        Livewire::component('laravel-ai::chat', ChatComponent::class);
+        Livewire::component('laravel-ai::chat-component', ChatComponent::class);
     }
 }
