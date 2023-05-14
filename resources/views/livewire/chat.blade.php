@@ -12,13 +12,10 @@
     x-on:scroll-to-bottom.window="scroll()"
     x-init="$nextTick(() => scroll())"
 >
-    <div class="bg-indigo-500 fixed w-52 h-full hidden lg:block">
-        LEFT
-    </div>
 
-    <div class="flex flex-col h-full">
+    <div class="flex flex-col">
         <template x-for="message in messages">
-            <div :class="message.role === 'user' ? 'bg-gray-50' : ''" class="lg:ml-52 py-8 last:pb-28 last:grow border border-gray-200">
+            <div :class="message.role === 'user' ? 'bg-gray-50' : ''" class="p-8 last:pb-28 last:grow border-b border-gray-200">
                 <div class="block mx-auto max-w-xl px-5 sm:px-6 lg:px-8">
                     <p class="font-bold mb-2" x-text="capitalize(message.role) + ':'"></p>
                     <p x-text="message.content"> </p>
@@ -27,7 +24,7 @@
         </template>
     </div>
 
-    <div class="fixed bottom-0 right-0 left-0 py-2 lg:left-52 h-42 bg-slate-200 border-t-2 border-slate-400">
+    <div class="fixed bottom-0 right-0 left-0 py-2 lg:left-72 h-42 bg-slate-200 border-t-2 border-slate-400">
         <div class="mx-auto max-w-xl">
             <label for="message" class="hidden">Message</label>
             <div
@@ -57,5 +54,4 @@
             </div>
         </div>
     </div>
-
 </div>

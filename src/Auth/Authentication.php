@@ -58,4 +58,19 @@ class Authentication
         return $this->authenticator->middleware_classes;
     }
 
+    /**
+     * Returns the logout route name
+     */
+    public function logout(): string
+    {
+        return $this->authenticator->route_logout;
+    }
+
+    /**
+     * Returns the profile route name
+     */
+    public  function profile(): string
+    {
+        return $this->authenticator->route_profile_edit;
+    }
 }
