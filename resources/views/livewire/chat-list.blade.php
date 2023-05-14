@@ -1,6 +1,11 @@
 <div class="mt-8 flex flex-col">
     <div class="overflow-x-auto">
         <div class="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+            <div class="w-full text-right mb-6">
+                <x-laravel-ai::buttons.a-primary href="{{ route('laravel-ai.chat.create') }}">
+                    Start a new chat
+                </x-laravel-ai::buttons.a-primary>
+            </div>
             <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 md:rounded-lg">
                 <table class="min-w-full max-w-full divide-y divide-gray-300">
                     <thead class="bg-gray-50">
