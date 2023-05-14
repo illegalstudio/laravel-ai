@@ -9,9 +9,10 @@ if (config('laravel-ai.interface.auth.require_user')) {
     $admin->middleware(LaravelAIAuth::middleware());
 }
 
-$admin->group(function() {
-    Route::resource('chat', ChatController::class)->except(['create', 'store', 'update'])->names([
+$admin->group(function () {
+    Route::resource('chat', ChatController::class)->except(['store', 'update'])->names([
         'index'   => 'laravel-ai.chat.index',
+        'create'  => 'laravel-ai.chat.create',
         'show'    => 'laravel-ai.chat.show',
         'edit'    => 'laravel-ai.chat.edit',
         'destroy' => 'laravel-ai.chat.destroy',
