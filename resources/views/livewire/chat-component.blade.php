@@ -43,7 +43,7 @@
                     wire:model.defer="message">
                 </textarea>
                 <button x-on:click="$wire.sendChat()"
-                    class="absolute p-1 rounded-full aspect-square text-gray-500 bottom-1.5 md:bottom-2.5 hover:bg-sky-500 hover:text-white enabled:dark:hover:text-gray-400 disabled:hover:bg-transparent right-1 md:right-2 disabled:opacity-40">
+                    class="absolute p-1 rounded-full aspect-square text-gray-500 bottom-1.5 md:bottom-2.5 hover:bg-sky-500 hover:text-white right-1 md:right-2 disabled:opacity-40">
                     <svg stroke="currentColor" fill="none" stroke-width="2" viewBox="0 0 24 24" stroke-linecap="round"
                          stroke-linejoin="round" class="h-4 w-4 mr-1" height="1em" width="1em"
                          xmlns="http://www.w3.org/2000/svg">
