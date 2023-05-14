@@ -9,7 +9,7 @@
                 <ul role="list" class="-mx-2 space-y-1">
                     <li>
                         <!-- Current: "bg-gray-50 text-indigo-600", Default: "text-gray-700 hover:text-indigo-600 hover:bg-gray-50" -->
-                        <a href="#" class="bg-gray-50 text-indigo-600 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
+                        <a href="{{ route('laravel-ai.chat.index') }}" class="bg-gray-50 text-indigo-600 group flex gap-x-3 rounded-md p-2 text-sm leading-6 font-semibold">
                             <x-laravel-ai::icons.outline-chat-bubble-left-right class="h-6 w-6 shrink-0 text-indigo-600" />
                             Chats
                         </a>

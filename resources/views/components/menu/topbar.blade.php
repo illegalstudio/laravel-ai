@@ -55,10 +55,10 @@
                     role="menu" aria-orientation="vertical" aria-labelledby="user-menu-button" tabindex="-1"
                 >
                     <!-- Active: "bg-gray-50", Not Active: "" -->
-                    <a target="_blank" href="{{ route(\Illegal\LaravelAI\LaravelAIAuth::profile()) }}"
+                    <a target="_blank" href="{{ route(insideauth()->route_profile_edit) }}"
                        class="block px-3 py-1 text-sm leading-6 text-gray-900 hover:bg-gray-50" role="menuitem"
                        tabindex="-1" id="user-menu-item-0">Your profile</a>
-                    <form method="post" action="{{ route(\Illegal\LaravelAI\LaravelAIAuth::logout()) }}"
+                    <form method="post" action="{{ route(insideauth()->route_logout) }}"
                           class="block m-0 p-0 w-full">
                         @csrf
                         <button type="submit"
