@@ -15,7 +15,7 @@
 
     <div class="flex flex-col">
         <template x-for="message in messages">
-            <div :class="message.role === 'user' ? 'bg-gray-50' : ''" class="p-8 last:pb-28 last:grow border-b border-gray-200">
+            <div :class="message.role === 'user' ? 'bg-gray-50' : ''" class="p-8 last:mb-28 last:grow border-b border-gray-200">
                 <div class="block mx-auto max-w-xl px-5 sm:px-6 lg:px-8">
                     <p class="font-bold mb-2" x-text="capitalize(message.role) + ':'"></p>
                     <p x-text="message.content"> </p>
