@@ -18,7 +18,7 @@
 </p>
 
 <p align="center">
-  Back in the &ldquo;distant&rdquo; year of 2023, Laravel AI began with a simple idea: one interface to connect Laravel applications to different AI providers. It never grew beyond an early experiment. Today, Laravel's official AI SDK brings that vision to life, and does it beautifully. This repository is now archived, kept as a small piece of that history.
+  Back in the &ldquo;distant&rdquo; year of 2023, Laravel AI began with a simple idea: one interface to connect Laravel applications to different AI providers. It never grew beyond an early experiment. Today, <a href="https://github.com/laravel/ai">Laravel's official AI SDK</a> brings that vision to life, and does it beautifully. This repository is now archived, kept as a small piece of that history.
 </p>
 
 ---
