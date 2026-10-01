@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256" fill="none" role="img" aria-labelledby="title description">
+  <title id="title">Laravel AI</title>
+  <desc id="description">Three red facets form a single gateway around a four-point spark.</desc>
+  <path d="M128 24 218 76 128 128 38 76Z" fill="#FF584D"/>
+  <path d="M32 87 122 139V243L32 191Z" fill="#FF2D20"/>
+  <path d="M224 87 134 139V243L224 191Z" fill="#D92218"/>
+  <path d="M128 76c8 34 18 44 52 52-34 8-44 18-52 52-8-34-18-44-52-52 34-8 44-18 52-52Z" fill="white"/>
+</svg>
